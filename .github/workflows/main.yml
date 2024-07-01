@@ -12,7 +12,7 @@ on:
 # Define the jobs that make up the workflow
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       # Step 1: Check out the code
@@ -23,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x' # Specify the version of Python to use
+          python-version: '3.x'
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -36,6 +36,24 @@ jobs:
         run: |
           python -m unittest discover
 
+      # Step 5: Install PyInstaller
+      - name: Install PyInstaller
+        run: |
+          pip install pyinstaller
+
+      # Step 6: Create executables
+      - name: Create executables
+        run: |
+          dir
+          pyinstaller --onefile age_cal.py  # Replace 'your_script.py' with your main script
+
+      # Step 7: Upload executables as artifacts
+      - name: Upload executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executables
+          path: dist/*.exe
+
   deploy:
     runs-on: windows-latest
     needs: build-and-test
@@ -46,20 +64,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment
+      # Step 2: Download executables
+      - name: Download executables
+        uses: actions/download-artifact@v3
+        with:
+          name: executables
+          path: ./dist
+
+      # Step 3: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x' # Specify the version of Python to use
+          python-version: '3.11'
 
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: |
+          dir
           python -m pip install --upgrade pip
           if (Test-Path requirements.txt) { pip install -r requirements.txt }
-
-      # Step 4: Deploy (placeholder step)
-      - name: Deploy
-        run: |
-          echo "Deployment step - customize this step for your deployment process"
-
+ 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: age.exe
+          
