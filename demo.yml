@@ -1,5 +1,6 @@
-name: CI/CD Pipeline for Python Tkinter Project
+name: CI/CD Pipeline for Python Calculator
 
+# Define the trigger for the workflow
 on:
   push:
     branches:
@@ -8,6 +9,7 @@ on:
     branches:
       - main
 
+# Define the jobs that make up the workflow
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -15,20 +17,63 @@ jobs:
     steps:
       # Step 1: Check out the code
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       # Step 2: Set up Python environment
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Specify the version of Python to use
+          python-version: '3.x' # Specify the version of Python to use
 
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-           # Uncomment the next line if you have a requirements.txt file
-           pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run unit tests
-        run: python -m unittest discover
+      # Step 4: Run tests
+      - name: Run tests
+        run: |
+          python -m unittest discover
+
+      # Step 5: Upload test results as artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: path/to/test-results # Adjust the path to the actual location of your test results
+
+  deploy:
+    runs-on: windows-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Download artifacts
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: cal
+     # Adjust the path to where you want to save the test results
+
+      # Step 3: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' # Specify the version of Python to use
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if (Test-Path requirements.txt) { pip install -r requirements.txt }
+
+      # Step 5: Deploy (placeholder step)
+      - name: Deploy
+        run: |
+          echo "Deployment step - customize this step for your deployment process"
+
