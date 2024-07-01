@@ -1,4 +1,4 @@
-name: Build Age Calculator
+name: Build and Package Application
  
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # Adjust branch name as per your main branch
  
 jobs:
-  build:
+  build_age_cal_exe:
     runs-on: windows-latest  # Use windows-latest for Windows instance
     steps:
     - name: Checkout code
@@ -28,8 +28,7 @@ jobs:
         dir  # List contents of current directory
     - name: Build executable
       run: |
-        dir
-        pyinstaller --onefile  age_cal.py  # Adjust path as needed
+        pyinstaller --onefile age_cal.py  # Adjust path as needed
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
@@ -39,3 +38,58 @@ jobs:
       with:
         name: age_cal_exe
         path: dist/age_cal.exe
+ 
+  build_inno_setup:
+    runs-on: windows-latest  # Use windows-latest for Windows instance
+    needs: build_age_cal_exe  # Ensure this job runs after build_age_cal_exe job
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Print current directory
+      run: |
+        echo "Current working directory: $PWD"
+        dir  # List contents of current directory
+    - name: Download age_cal.exe artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: age_cal_exe
+        path: age_cal  # Specify the directory where age_cal.exe should be downloaded
+    - name: Download and install Inno Setup
+      run: |
+        curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
+        Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
+    - name: Print current directory
+      run: |
+        echo "Current working directory: $PWD"
+        dir  # List contents of current directory
+    - name: Create Inno Setup script
+      run: |
+        echo "[Setup]
+        OutputBaseFilename=setup
+        AppVersion=1.0
+        DefaultDirName={pf}\kvapp
+        DisableProgramGroupPage=yes
+        UninstallDisplayIcon={app}\age_cal.exe
+        Compression=lzma
+        SolidCompression=yes
+ 
+        [Files]
+        Source: age_cal/age_cal.exe; DestDir: {app}; Flags: ignoreversion
+        " > setup_script.iss
+    - name: Print current directory
+      run: |
+        echo "Current working directory: $PWD"
+        dir  # List contents of current directory
+    - name: Run Inno Setup compiler
+      run: |
+        Start-Process -FilePath "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" -ArgumentList "inno.iss" -NoNewWindow -Wait
+    - name: Print current directory
+      run: |
+        dir
+        echo "Current working directory: $PWD"
+        dir  # List contents of current directory
+    - name: Upload Inno Setup installer artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: setup_exe
+        path: Output\mysetupAPPPP.exe  # Adjust path to setup.exe output file
