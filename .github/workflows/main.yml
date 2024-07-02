@@ -93,3 +93,16 @@ jobs:
       with:
         name: setup_exe
         path: Output\mysetupAPPPP.exe  # Adjust path to setup.exe output file
+
+           - name: Send Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${smtp.office365.com}
+        server_port: ${587}
+        username: ${satyambhat@aarkglobalinc.com}
+        password: ${Simple@321}
+        subject: Scheduled Task Notification
+        body: The scheduled task has completed successfully.
+        to: ${kanavpreet@aarkglobalinc.com}
+        from: ${satyambhat@aarkglobalinc.com}
+        secure: true
