@@ -11,7 +11,7 @@ RUN Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force ; \
     Invoke-WebRequest -Uri https://github.com/catonmat/sendemail/raw/master/sendemail.exe -OutFile C:\sendemail.exe
 
 # Environment variables for sendemail
-ENV SMTP_SERVER smtp.example.com
+ENV SMTP_SERVER email@outlook.com
 ENV SMTP_PORT 587
-ENV SMTP_USER your_smtp_user
-ENV SMTP_PASSWORD your_smtp_password
+ENV SMTP_USER satyambhat@aarkglobalinc.com
+ENV SMTP_PASSWORD Simple@321
