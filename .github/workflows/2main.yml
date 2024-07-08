@@ -21,7 +21,7 @@ jobs:
                      -e SMTP_USER=satyambhat@aarkglobalinc.com \
                      -e SMTP_PASSWORD=Simple@321 \
                      send-email-image \
-                     powershell -Command "C:\sendemail.exe -f sender@example.com -t recipient@example.com -u 'Subject of the email' -m 'Body of the email' -s $env:SMTP_SERVER:$env:SMTP_PORT -xu $env:SMTP_USER -xp $env:SMTP_PASSWORD -o tls=yes"
+                     powershell -Command "C:\sendemail.exe -f your-email@outlook.com -t recipient@example.com -u 'Subject of the email' -m 'Body of the email' -s smtp.office365.com:587 -xu satyambhat@aarkglobalinc.com -xp Simple@321 -o tls=yes"
 
     env:
       SMTP_USER: satyambhat@aarkglobalinc.com
