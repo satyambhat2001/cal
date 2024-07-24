@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # Adjust branch name as per your main branch
+    paths:
+      - age_cal.py
  
 jobs:
   build_age_cal_exe:
