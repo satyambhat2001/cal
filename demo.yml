@@ -1,6 +1,6 @@
 name: CI/CD Pipeline for Python Calculator
 
-# Define the trigger for the workflow
+# Define the trigger for the workflow    
 on:
   push:
     branches:
