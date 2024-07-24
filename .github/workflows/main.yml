@@ -9,9 +9,6 @@ jobs:
   build_age_cal_exe:
     runs-on: windows-latest  # Use windows-latest for Windows instance
     steps:
-    - name: Run only if age_cal.py changed
-      if: contains(github.event.head_commit.message, 'age_cal.py')
-      run: echo "age_cal.py was changed, running the necessary commands."
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Print current directory
