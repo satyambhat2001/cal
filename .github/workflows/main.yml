@@ -96,7 +96,7 @@ jobs:
         name: setup_exe
         path: Output\mysetupAPPPP.exe  # Adjust path to setup.exe output file
     - name: Send notification email
-      env:
+       - env
           SMTP_SERVER:smtp.gmail.com
           SMTP_PORT:465
           SMTP_USERNAME:satyambhat14@gmail.com
