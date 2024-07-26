@@ -95,16 +95,14 @@ jobs:
       with:
         name: setup_exe
         path: Output\mysetupAPPPP.exe  # Adjust path to setup.exe output file
-    - name: Send notification email
-       - env
-          SMTP_SERVER:smtp.gmail.com
-          SMTP_PORT:465
-          SMTP_USERNAME:satyambhat14@gmail.com
-          SMTP_PASSWORD:Satyam@777
-      run: |
-           echo "Sending notification email..."
-           echo "Subject: Test Email" > email_body.txt
-           echo "This is a test email sent from GitHub Actions." >> email_body.txt
-           curl --url "smtps://smtp.gmail.com:465" --ssl-reqd \
-            --mail-from "satyambhat14@gmail.com" --mail-rcpt "satyambhat14@gmail.com" \
-            --upload-file email_body.txt --user "satyambhat14@gmail.com:Satyam@777"
+    - name: Send some mail
+      uses: wadeww/send-email-action@master
+      with:
+       server_address: smtp.gmail.com
+       port: 465
+       username: satyambhat14@gmail.com
+       password: Satyam@777
+       subject: Workflow finished
+       body: Job completed success
+       to: Kanavsingh002@gmail.com
+       from: satyambhat14@gmail.com
