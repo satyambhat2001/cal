@@ -97,9 +97,9 @@ jobs:
       with:
        server_address: smtp-mail.outlook.com
        port: 587
-       username: satyambhat@aarkglobalinc.com
-       password: Sunita@123
+       username: smtp.office365.com
+       password: qzjkkhbkmznmqqwj
        subject: Workflow finished
        body: Job completed success
-       to: kanavpreet@aarkglobalinc.com
-       from: satyambhat@aarkglobalinc.com
+       to: satyambhat@aarkglobalinc.com
+       from: smtp.office365.com
