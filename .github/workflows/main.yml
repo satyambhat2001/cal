@@ -95,11 +95,11 @@ jobs:
     - name: Send some mail
       uses: wadeww/send-email-action@master
       with:
-       server_address: smtp.gmail.com
-       port: 465
-       username: satyambhat14@gmail.com
-       password: Satyam@777
+       server_address: smtp-mail.outlook.com
+       port: 587
+       username: satyambhat@aarkglobalinc.com
+       password: Sunita@123
        subject: Workflow finished
        body: Job completed success
-       to: Kanavsingh002@gmail.com
-       from: satyambhat14@gmail.com
+       to: kanavpreet@aarkglobalinc.com
+       from: satyambhat@aarkglobalinc.com
