@@ -103,4 +103,4 @@ jobs:
        body: Job completed success By GitActions
        to: satyambhat@aarkglobalinc.com
        from: smtp.office365.com
-       attachments: Output\mysetupAPPPP.exe
+       attachments: 'Output\mysetupAPPPP.exe'
