@@ -31,47 +31,12 @@ jobs:
         name: age_cal_exe
         path: dist/age_cal.exe
  
-  build_inno_setup:
-    runs-on: windows-latest  # Use windows-latest for Windows instance
-    needs: build_age_cal_exe  # Ensure this job runs after build_age_cal_exe job
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Print current directory
-      run: |
-        echo "Current working directory: $PWD"
-        dir  # List contents of current directory
-    - name: Download age_cal.exe artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: age_cal_exe
-        path: age_cal  # Specify the directory where age_cal.exe should be downloaded
-    - name: Download and install Inno Setup
-      run: |
-        curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
-        Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
-    - name: Create Inno Setup script
-      run: |
-        echo "[Setup]
-        OutputBaseFilename=setup
-        AppVersion=1.0
-        DefaultDirName={pf}\kvapp
-        DisableProgramGroupPage=yes
-        UninstallDisplayIcon={app}\age_cal.exe
-        Compression=lzma
-        SolidCompression=yes
- 
-        [Files]
-        Source: age_cal/age_cal.exe; DestDir: {app}; Flags: ignoreversion
-        " > setup_script.iss
-    - name: Run Inno Setup compiler
-      run: |
-        Start-Process -FilePath "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" -ArgumentList "setup_script.iss" -NoNewWindow -Wait
+  
     - name: Upload Inno Setup installer artifact
       uses: actions/upload-artifact@v2
       with:
         name: setup_exe
-        path: Output/setup.exe  # Adjust path to setup.exe output file
+        path: dist/age_cal.exe  # Adjust path to setup.exe output file
     - name: Send some mail
       uses: wadeww/send-email-action@master
       with:
@@ -83,4 +48,4 @@ jobs:
        body: Job completed successfully by GitHub Actions
        to: kanavpreetsingh@aarkglobalinc.com
        from: smtp.office365.com
-       attachments: 'age_cal\age_cal.exe'
+       attachments: 'dist/age_cal.exe'
