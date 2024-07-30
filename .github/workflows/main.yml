@@ -106,10 +106,10 @@ jobs:
       server_address: smtp-mail.outlook.com
       port: 587
       username: smtp@aarkglobalinc.com
-       password: qqtbzfbxwlxbbkjt
-       subject: Workflow finished
-       body: Job completed successfully by GitHub Actions
-       to: satyambhat@aarkglobalinc.com
-       from: smtp.office365.com
+       password:qqtbzfbxwlxbbkjt
+       subject:Workflow finished
+       body:Job completed successfully by GitHub Actions
+       to:satyambhat@aarkglobalinc.com
+       from:smtp.office365.com
       
     
