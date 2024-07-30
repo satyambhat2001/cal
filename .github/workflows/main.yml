@@ -9,13 +9,13 @@ jobs:
     runs-on: windows-latest  # Use windows-latest for Windows instance
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.11'  # Replace with your Python version
     - name: Install dependencies
@@ -33,7 +33,7 @@ jobs:
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: age_cal_exe
         path: dist/age_cal.exe
@@ -43,13 +43,13 @@ jobs:
     needs: build_age_cal_exe  # Ensure this job runs after build_age_cal_exe job
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
     - name: Download age_cal.exe artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: age_cal_exe
         path: age_cal  # Specify the directory where age_cal.exe should be downloaded
@@ -86,16 +86,16 @@ jobs:
         Start-Process -FilePath "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" -ArgumentList "inno.iss" -NoNewWindow -Wait
     - name: Print current directory
       run: |
-        dir
-        more inno.iss
+        
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
-        more  setup_script.iss
+        dir age_cal
+        
     - name: Upload Inno Setup installer artifact
       uses: actions/upload-artifact@v2
       with:
         name: setup_exe
-        path: Output\mysetupAPPPP.exe  # Adjust path to setup.exe output file
+        path: age_cal/age_cal.exe  # Adjust path to setup.exe output file
     - name: Send some mail
       uses: wadeww/send-email-action@master
       with:
