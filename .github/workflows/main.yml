@@ -1,9 +1,10 @@
 name: Build and Package Application
- 
+
 on:
   push:
     branches:
       - main  # Adjust branch name as per your main branch
+
 jobs:
   build_age_cal_exe:
     runs-on: windows-latest  # Use windows-latest for Windows instance
@@ -37,7 +38,7 @@ jobs:
       with:
         name: age_cal_exe
         path: dist/age_cal.exe
- 
+
   build_inno_setup:
     runs-on: windows-latest  # Use windows-latest for Windows instance
     needs: build_age_cal_exe  # Ensure this job runs after build_age_cal_exe job
@@ -57,8 +58,6 @@ jobs:
       run: |
         curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
         Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
-        
-        
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
@@ -73,7 +72,7 @@ jobs:
         UninstallDisplayIcon={app}\age_cal.exe
         Compression=lzma
         SolidCompression=yes
- 
+
         [Files]
         Source: age_cal/age_cal.exe; DestDir: {app}; Flags: ignoreversion
         " > setup_script.iss
@@ -83,28 +82,24 @@ jobs:
         dir  # List contents of current directory
     - name: Run Inno Setup compiler
       run: |
-        Start-Process -FilePath "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" -ArgumentList "inno.iss" -NoNewWindow -Wait
+        Start-Process -FilePath "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" -ArgumentList "setup_script.iss" -NoNewWindow -Wait
     - name: Print current directory
       run: |
-        
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
         dir age_cal
-        
     - name: Upload Inno Setup installer artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: setup_exe
-        path: age_cal/age_cal.exe  # Adjust path to setup.exe output file
-    - name: Send some mail
-      uses: wadeww/send-email-action@master
+        path: age_cal\age_cal.exe  # Adjust path to setup.exe output file
+    - name: Set up Python
+      uses: actions/setup-python@v3
       with:
-       server_address: smtp-mail.outlook.com
-       port: 587
-       username: smtp@aarkglobalinc.com
-       password: qqtbzfbxwlxbbkjt
-       subject: Workflow finished
-       body: Job completed success By GitActions
-       to: satyambhat@aarkglobalinc.com
-       from: smtp.office365.com
-       attachments: 'age_cal\age_cal.exe'
+        python-version: '3.11'  # Replace with your Python version
+    - name: Install dependencies
+      run: |
+        pip install smtplib
+    - name: Send email with attachment
+      run: |
+        python send_email.py "smtp@aarkglobalinc.com" "qqtbzfbxwlxbbkjt" "satyambhat@aarkglobalinc.com" "Workflow finished" "Job completed successfully by GitHub Actions" "Output/setup.exe"
