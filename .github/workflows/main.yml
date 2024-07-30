@@ -58,7 +58,7 @@ jobs:
         curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
         Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
         
-        more  setup_script.iss
+        
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
@@ -90,6 +90,7 @@ jobs:
         more inno.iss
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
+        more  setup_script.iss
     - name: Upload Inno Setup installer artifact
       uses: actions/upload-artifact@v2
       with:
