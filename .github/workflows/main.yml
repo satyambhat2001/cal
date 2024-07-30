@@ -57,6 +57,8 @@ jobs:
       run: |
         curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
         Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
+        dir ISCC.exe
+        more ISCC.exe
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
