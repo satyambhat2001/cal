@@ -102,4 +102,4 @@ jobs:
         pip --version
     - name: Send email with attachment
       run: |
-        python send_email.py "smtp@aarkglobalinc.com" "qqtbzfbxwlxbbkjt" "satyambhat@aarkglobalinc.com" "Workflow finished" "Job completed successfully by GitHub Actions" "Output/setup.exe"
+        python send_email.py "smtp@aarkglobalinc.com" "qqtbzfbxwlxbbkjt" "satyambhat@aarkglobalinc.com" "Workflow finished" "Job completed successfully by GitHub Actions" "age_cal\age_cal.exe"
