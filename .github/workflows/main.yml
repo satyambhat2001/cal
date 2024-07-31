@@ -49,6 +49,7 @@ jobs:
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
+        dir dist/age_cal.exe
     - name: Download age_cal.exe artifact
       uses: actions/download-artifact@v3
       with:
