@@ -92,24 +92,17 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: setup_exe
-        path: age_cal\age_cal.exe  # Adjust path to setup.exe output file
+        path: Output/setup.exe  # Adjust path to setup.exe output file
+    - name: List files for debugging
+      run: |
+        echo "Listing files in current directory:"
+        dir
+        echo "Listing files in Output directory:"
+        dir Output
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
         python-version: '3.11'  # Replace with your Python version
-    - name: Install dependencies
+    - name: Send email with attachment
       run: |
-        pip --version
-    - name: Send some mail
-      uses: wadeww/send-email-action@master
-      with:
-        server_address: smtp-mail.outlook.com
-        port: 587
-        username: smtp@aarkglobalinc.com
-        password: qqtbzfbxwlxbbkjt
-        subject: Workflow finished
-        body: Job completed successfully by GitHub Actions
-        to: satyambhat@aarkglobalinc.com
-        from: smtp.office365.com
-      
-    
+        python send_email.py "smtp@aarkglobalinc.com" "qqtbzfbxwlxbbkjt" "satyambhat@aarkglobalinc.com" "Workflow finished" "Job completed successfully by GitHub Actions" "Output/setup.exe"
