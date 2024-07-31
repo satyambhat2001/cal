@@ -65,6 +65,7 @@ jobs:
     - name: Create Inno Setup script
       run: |
         echo "[Setup]
+        OutputDir=Output
         OutputBaseFilename=setup
         AppVersion=1.0
         DefaultDirName={pf}\kvapp
@@ -76,6 +77,8 @@ jobs:
         [Files]
         Source: age_cal/age_cal.exe; DestDir: {app}; Flags: ignoreversion
         " > setup_script.iss
+    - name: Create Output directory
+      run: mkdir Output
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
@@ -87,18 +90,15 @@ jobs:
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
-        dir age_cal
+    - name: List files in Output directory
+      run: |
+        echo "Listing files in Output directory:"
+        dir Output
     - name: Upload Inno Setup installer artifact
       uses: actions/upload-artifact@v3
       with:
         name: setup_exe
         path: Output/setup.exe  # Adjust path to setup.exe output file
-    - name: List files for debugging
-      run: |
-        echo "Listing files in current directory:"
-        dir
-        echo "Listing files in Output directory:"
-        dir Output
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
