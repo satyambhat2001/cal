@@ -94,6 +94,7 @@ jobs:
       run: |
         echo "Listing files in Output directory:"
         dir Output
+        dir age_cal
     - name: Upload Inno Setup installer artifact
       uses: actions/upload-artifact@v3
       with:
