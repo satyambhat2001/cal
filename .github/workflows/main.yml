@@ -111,7 +111,7 @@ jobs:
         server_address: smtp.office365.com
         server_port: 587
         username: smtp@aarkglobalinc.com
-        password: ${{ secrets.EMAIL_PASSWORD }}
+        password: qqtbzfbxwlxbbkjt
         subject: GitHub Actions Email with Attachment
         body: This email contains an attachment.
         to: satyambhat@aarkglobalinc.com
