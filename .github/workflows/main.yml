@@ -38,7 +38,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: age_cal_exe
-        path: dist/age_cal.exe
+        path: dist/age_cal_exe
 
   build_inno_setup:
     runs-on: windows-latest  # Use windows-latest for Windows instance
@@ -50,7 +50,7 @@ jobs:
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
-    - name: Download age_cal.exe artifact
+    - name: Download age_cal_exe artifact
       uses: actions/download-artifact@v3
       with:
         name: age_cal_exe
