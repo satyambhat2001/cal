@@ -35,7 +35,7 @@ jobs:
         dir  # List contents of current directory
         dir dist  # List contents of dist directory to confirm age_cal.exe is there
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: age_cal_exe
         path: dist/age_cal.exe
