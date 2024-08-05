@@ -1,6 +1,4 @@
-
 name: Build and Package Application
-
 
 on:
   push:
@@ -35,6 +33,7 @@ jobs:
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
+        dir dist  # List contents of dist directory to confirm age_cal.exe is there
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
@@ -51,20 +50,20 @@ jobs:
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
-        dir dist/age_cal.exe
-    - name: Download age_cal.exe artifact
+    - name: Download age_cal_exe artifact
       uses: actions/download-artifact@v3
       with:
         name: age_cal_exe
-        path: age_cal  # Specify the directory where age_cal.exe should be downloaded
-    - name: Download and install Inno Setup
-      run: |
-        curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
-        Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
+        path: ./downloaded_artifacts  # Specify the directory where age_cal.exe should be downloaded
     - name: Print current directory
       run: |
         echo "Current working directory: $PWD"
         dir  # List contents of current directory
+        dir downloaded_artifacts  # List contents of downloaded_artifacts to confirm age_cal.exe is there
+    - name: Download and install Inno Setup
+      run: |
+        curl -L -o innosetup.exe "https://jrsoftware.org/download.php/is.exe"
+        Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -NoNewWindow -Wait
     - name: Create Inno Setup script
       run: |
         echo "[Setup]
@@ -78,7 +77,7 @@ jobs:
         SolidCompression=yes
 
         [Files]
-        Source: age_cal/age_cal.exe; DestDir: {app}; Flags: ignoreversion
+        Source: downloaded_artifacts/age_cal.exe; DestDir: {app}; Flags: ignoreversion
         " > setup_script.iss
     - name: Create Output directory
       run: mkdir Output
@@ -97,25 +96,24 @@ jobs:
       run: |
         echo "Listing files in Output directory:"
         dir Output
-        dir age_cal
     - name: Upload Inno Setup installer artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: setup_exe
         path: Output/setup.exe  # Adjust path to setup.exe output file
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: '3.11'  # Replace with your Python version
     - name: Send email
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: smtp-mail.outlook.com
-        server_port: 465
+        server_address: smtp.office365.com
+        server_port: 587
         username: smtp@aarkglobalinc.com
         password: qqtbzfbxwlxbbkjt
         subject: GitHub Actions Email with Attachment
         body: This email contains an attachment.
         to: satyambhat@aarkglobalinc.com
         from: smtp@aarkglobalinc.com
-        attachments: downloaded_artifacts/age_cal_exe
+        attachments: Output/age_cal_exe
