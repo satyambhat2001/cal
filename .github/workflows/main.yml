@@ -116,4 +116,4 @@ jobs:
         body: This email contains an attachment.
         to: satyambhat@aarkglobalinc.com
         from: smtp@aarkglobalinc.com
-        attachments: Output/setup.exe
+        attachments: Output/age_cal_exe
