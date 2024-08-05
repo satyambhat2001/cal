@@ -1,10 +1,11 @@
 
 name: Build and Package Application
 
+
 on:
-  release:
-    types: 
-      - published  # Adjust branch name as per your main branch
+  push:
+    branches:
+      - main  # Adjust branch name as per your main branch
 
 jobs:
   build_age_cal_exe:
