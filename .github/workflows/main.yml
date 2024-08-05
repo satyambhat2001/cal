@@ -1,3 +1,4 @@
+
 name: Build and Package Application
 
 on:
@@ -117,4 +118,3 @@ jobs:
         to: satyambhat@aarkglobalinc.com
         from: smtp@aarkglobalinc.com
         attachments: downloaded_artifacts/age_cal_exe
-
