@@ -35,7 +35,7 @@ jobs:
         dir  # List contents of current directory
         dir dist  # List contents of dist directory to confirm age_cal.exe is there
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: age_cal_exe
         path: dist/age_cal.exe
@@ -97,12 +97,12 @@ jobs:
         echo "Listing files in Output directory:"
         dir Output
     - name: Upload Inno Setup installer artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: setup_exe
         path: Output/setup.exe  # Adjust path to setup.exe output file
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: '3.11'  # Replace with your Python version
     - name: Send email
