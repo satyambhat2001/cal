@@ -105,6 +105,16 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.11'  # Replace with your Python version
-    - name: Send email with attachment
-      run: |
-        python send_email.py "smtp@aarkglobalinc.com" "qqtbzfbxwlxbbkjt" "satyambhat@aarkglobalinc.com" "Workflow finished" "Job completed successfully by GitHub Actions" "Output/setup.exe"
+    - name: Send email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp-mail.outlook.com
+        server_port: 465
+        username: smtp@aarkglobalinc.com
+        password: qqtbzfbxwlxbbkjt
+        subject: GitHub Actions Email with Attachment
+        body: This email contains an attachment.
+        to: satyambhat@aarkglobalinc.com
+        from: smtp@aarkglobalinc.com
+        attachments: downloaded_artifacts/age_cal_exe
+
